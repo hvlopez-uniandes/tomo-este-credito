@@ -244,3 +244,28 @@ input:focus {
   margin-top: 16px;
   line-height: 1.5;
 }
+
+.register-form {
+  animation: fadeIn 0.2s ease;
+}
+
+.register-form input {
+  margin-bottom: 10px;
+}
+
+.register-done {
+  background: #f9fff5;
+  border: 2px solid #58cc02;
+  border-radius: 14px;
+  padding: 14px 16px;
+  font-size: 14px;
+  color: #1a1a1a;
+  line-height: 1.5;
+  text-align: center;
+  margin-top: 4px;
+  animation: fadeIn 0.2s ease;
+}
+
+.register-done strong {
+  color: #2e7d32;
+}

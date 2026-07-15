@@ -44,6 +44,8 @@ function computeResult({ monto, cuota, plazo, ingreso }) {
 export default function App() {
   const [form, setForm] = useState({ monto: '', cuota: '', plazo: '', ingreso: '' })
   const [result, setResult] = useState(null)
+  const [registerStep, setRegisterStep] = useState('idle') // idle | form | done
+  const [email, setEmail] = useState('')
 
   const handleChange = (e) => {
     const { id, value } = e.target
@@ -61,8 +63,15 @@ export default function App() {
     setResult(computeResult(values))
   }
 
-  const handleRegister = () => {
-    alert('¡Gracias! Te avisaremos cuando la herramienta esté disponible.')
+  const handleConfirmRegister = (e) => {
+    e.preventDefault()
+    setRegisterStep('done')
+  }
+
+  const handleReset = () => {
+    setResult(null)
+    setRegisterStep('idle')
+    setEmail('')
   }
 
   return (
@@ -118,8 +127,27 @@ export default function App() {
               <p className="rc-alt-body">{result.altText}</p>
             </div>
           )}
-          <button type="button" className="cta" onClick={handleRegister}>Avísame cuando esté listo →</button>
-          <button type="button" className="cta secondary" onClick={() => setResult(null)}>Probar otro crédito</button>
+          {registerStep === 'idle' && (
+            <button type="button" className="cta" onClick={() => setRegisterStep('form')}>Avísame cuando esté listo →</button>
+          )}
+          {registerStep === 'form' && (
+            <form className="register-form" onSubmit={handleConfirmRegister}>
+              <label htmlFor="email">¿A qué correo te avisamos?</label>
+              <input
+                type="email"
+                id="email"
+                placeholder="tu@correo.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+              <button type="submit" className="cta">Confirmar →</button>
+            </form>
+          )}
+          {registerStep === 'done' && (
+            <p className="register-done">¡Listo! Te avisaremos a <strong>{email}</strong> cuando esté disponible.</p>
+          )}
+          <button type="button" className="cta secondary" onClick={handleReset}>Probar otro crédito</button>
         </div>
       )}
 
